@@ -1,12 +1,11 @@
 import app from "./app";
-
-const port = process.env.PORT || 3000;
+import { config } from "./config";
 
 const startServer = async () => {
   try {
     // Start the server
-    app.listen(port, () => {
-      console.log(`Server is running on http://localhost:${port}`);
+    app.listen(config.port, () => {
+      console.log(`Server is running on http://localhost:${config.port}`);
     });
   } catch (error: any) {
     console.error("Error starting the server:", error.message);

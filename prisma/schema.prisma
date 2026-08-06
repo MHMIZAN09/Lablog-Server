@@ -63,20 +63,20 @@ enum MaintenancePriority {
 }
 
 model User {
-  id            String    @id @default(uuid())
-  name          String
-  email         String    @unique
-  passwordHash  String
-  phone         String?
-  avatarUrl     String?
-  studentId     String?   @unique
-  employeeId    String?   @unique
-  department    String?
-  role          Role      @default(STUDENT)
-  isActive      Boolean   @default(true)
-  emailVerified Boolean   @default(false)
-  lastLoginAt   DateTime?
-
+  id                   String        @id @default(uuid())
+  name                 String
+  email                String        @unique
+  passwordHash         String
+  phone                String?
+  avatarUrl            String?
+  studentId            String?       @unique
+  employeeId           String?       @unique
+  department           String?
+  role                 Role          @default(STUDENT)
+  isActive             Boolean       @default(true)
+  emailVerified        Boolean       @default(false)
+  mustChangePassword   Boolean       @default(false)
+  
   reservations         Reservation[] @relation("ReservationOwner")
   reviewedReservations Reservation[] @relation("ReservationReviewer")
   usageLogs            UsageLog[]    @relation("EquipmentUser")

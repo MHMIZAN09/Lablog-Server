@@ -7,4 +7,9 @@ export const config = {
   databaseUrl: process.env.DATABASE_URL,
   port: process.env.PORT,
   apiUrl: process.env.API_URL,
+
+  jwtAccessTokenSecret: process.env.JWT_ACCESS_TOKEN_SECRET!,
+  jwtRefreshTokenSecret: process.env.JWT_REFRESH_TOKEN_SECRET!,
+  jwtAccessTokenExpiration: process.env.JWT_ACCESS_TOKEN_EXPIRATION!,
+  jwtRefreshTokenExpiration: process.env.JWT_REFRESH_TOKEN_EXPIRATION!,
 };

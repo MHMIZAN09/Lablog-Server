@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { Application, Request, Response } from "express";
 import { config } from "./config";
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+app.use(cookieParser());
 
 // Basic route
 app.get("/", (req: Request, res: Response) => {

@@ -26,12 +26,32 @@ const userRegister = async (req: Request, res: Response) => {
 const userLogin = async (req: Request, res: Response) => {
   try {
     const payload = req.body;
-    const result = await authService.userLogin(payload);
+    const { accessToken, refreshToken } = await authService.userLogin(payload);
+
+    // cookies setup
+
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
     res.status(200).json({
       success: true,
       statusCode: 200,
       message: "User logged in successfully",
-      data: result,
+      data: {
+        accessToken,
+        refreshToken,
+      },
     });
   } catch (error: any) {
     res.status(500).json({

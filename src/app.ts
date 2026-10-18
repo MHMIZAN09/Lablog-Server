@@ -1,15 +1,17 @@
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import express, { Application, Request, Response } from "express";
+import express, { type Application, type Request, type Response } from "express";
 import { config } from "./config";
-import { indexRoute } from "./types";
+import { indexRoute } from "./routes";
+import { globalErrorHandler } from "./middleware/globalErrorHandler";
+import { notFound } from "./middleware/notFound";
 
 const app: Application = express();
 
 // cors
 app.use(
   cors({
-    origin: config.apiUrl, // Allow requests from any origin
+    origin: config.frontendUrl, // Allow requests from any origin
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   }),
 );
@@ -22,7 +24,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Basic route
-app.get("/", (req: Request, res: Response) => {
+app.get("/", (_req: Request, res: Response) => {
   res.status(200).json({
     success: true,
     statusCode: 200,
@@ -32,5 +34,8 @@ app.get("/", (req: Request, res: Response) => {
 
 // Importing routes
 app.use("/api", indexRoute);
+
+app.use(globalErrorHandler);
+app.use(notFound);
 
 export default app;

@@ -13,6 +13,12 @@ enum Role {
   STUDENT
 }
 
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  BLOCKED
+}
+
 enum EquipmentStatus {
   AVAILABLE
   RESERVED
@@ -63,20 +69,20 @@ enum MaintenancePriority {
 }
 
 model User {
-  id                   String        @id @default(uuid())
-  name                 String
-  email                String        @unique
-  passwordHash         String
-  phone                String?
-  avatarUrl            String?
-  studentId            String?       @unique
-  employeeId           String?       @unique
-  department           String?
-  role                 Role          @default(STUDENT)
-  isActive             Boolean       @default(true)
-  emailVerified        Boolean       @default(false)
-  mustChangePassword   Boolean       @default(false)
-  
+  id                 String     @id @default(uuid())
+  name               String
+  email              String     @unique
+  passwordHash       String
+  phone              String?
+  avatarUrl          String?
+  studentId          String?    @unique
+  employeeId         String?    @unique
+  department         String?
+  role               Role       @default(STUDENT)
+  status             UserStatus @default(ACTIVE)
+  emailVerified      Boolean    @default(false)
+  mustChangePassword Boolean    @default(false)
+
   reservations         Reservation[] @relation("ReservationOwner")
   reviewedReservations Reservation[] @relation("ReservationReviewer")
   usageLogs            UsageLog[]    @relation("EquipmentUser")
@@ -90,7 +96,7 @@ model User {
   deletedAt DateTime?
 
   @@index([role])
-  @@index([isActive])
+  @@index([status])
   @@index([department])
   @@index([createdAt])
   @@index([deletedAt])
